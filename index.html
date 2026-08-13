@@ -1,0 +1,543 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ghostface Bot</title>
+    <meta
+        name="description"
+        content="Ghostface is a horror-themed Discord bot featuring RPG progression, games, virtual currency, inventories, stats, and community features."
+    >
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background:
+                radial-gradient(circle at top, rgba(160, 0, 18, 0.12), transparent 35%),
+                #070707;
+            color: #d9d9d9;
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.7;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(1100px, calc(100% - 40px));
+            margin: 0 auto;
+        }
+
+        /* Navigation */
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(7, 7, 7, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid #1e1e1e;
+        }
+
+        .nav-inner {
+            min-height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo {
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .logo span {
+            color: #e11d2e;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            color: #9b9b9b;
+            font-size: 14px;
+            transition: 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+
+        /* Hero */
+
+        .hero {
+            min-height: 78vh;
+            display: flex;
+            align-items: center;
+            padding: 90px 0;
+            border-bottom: 1px solid #161616;
+        }
+
+        .hero-content {
+            max-width: 780px;
+        }
+
+        .eyebrow {
+            color: #e11d2e;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: clamp(54px, 9vw, 100px);
+            line-height: 0.95;
+            letter-spacing: -4px;
+            margin-bottom: 26px;
+        }
+
+        h1 span {
+            color: #e11d2e;
+        }
+
+        .hero-description {
+            max-width: 680px;
+            color: #a5a5a5;
+            font-size: 19px;
+            margin-bottom: 36px;
+        }
+
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 48px;
+            padding: 0 22px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            transition: 0.2s ease;
+        }
+
+        .button-primary {
+            background: #d7192d;
+            color: #ffffff;
+        }
+
+        .button-primary:hover {
+            background: #f01f35;
+            transform: translateY(-2px);
+        }
+
+        .button-secondary {
+            background: #121212;
+            color: #ffffff;
+            border: 1px solid #292929;
+        }
+
+        .button-secondary:hover {
+            background: #191919;
+            border-color: #3a3a3a;
+            transform: translateY(-2px);
+        }
+
+        /* Sections */
+
+        section {
+            padding: 90px 0;
+        }
+
+        .section-heading {
+            max-width: 700px;
+            margin-bottom: 45px;
+        }
+
+        .section-label {
+            color: #e11d2e;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #ffffff;
+            font-size: clamp(32px, 5vw, 48px);
+            line-height: 1.1;
+            margin-bottom: 14px;
+        }
+
+        .section-heading p {
+            color: #8c8c8c;
+            font-size: 17px;
+        }
+
+        /* Feature Cards */
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .card {
+            background: linear-gradient(145deg, #101010, #0b0b0b);
+            border: 1px solid #202020;
+            border-radius: 12px;
+            padding: 28px;
+            transition: 0.2s ease;
+        }
+
+        .card:hover {
+            border-color: #3b161a;
+            transform: translateY(-3px);
+        }
+
+        .card-number {
+            color: #e11d2e;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 18px;
+        }
+
+        .card h3 {
+            color: #ffffff;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #888888;
+            font-size: 14px;
+        }
+
+        /* About / Legal */
+
+        .split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .legal-card {
+            background: #0d0d0d;
+            border: 1px solid #202020;
+            border-radius: 12px;
+            padding: 32px;
+        }
+
+        .legal-card h3 {
+            color: #ffffff;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .legal-card p {
+            color: #8c8c8c;
+            margin-bottom: 20px;
+        }
+
+        .legal-card a {
+            color: #e11d2e;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .legal-card a:hover {
+            color: #ff3547;
+        }
+
+        /* Footer */
+
+        footer {
+            border-top: 1px solid #1b1b1b;
+            padding: 35px 0;
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            color: #606060;
+            font-size: 13px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-links a {
+            color: #777777;
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 800px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                min-height: auto;
+                padding: 90px 0 80px;
+            }
+
+            h1 {
+                letter-spacing: -2px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .split {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="container nav-inner">
+            <div class="logo">
+                GHOSTFACE<span>.</span>
+            </div>
+
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#legal">Legal</a>
+                <a href="terms.html">Terms</a>
+                <a href="privacy.html">Privacy</a>
+            </div>
+        </div>
+    </nav>
+
+
+    <main>
+
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+
+                    <div class="eyebrow">
+                        Horror. Progression. Chaos.
+                    </div>
+
+                    <h1>
+                        Welcome to<br>
+                        <span>Ghostface.</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        A horror-themed Discord bot built for community interaction,
+                        RPG progression, games, virtual currency, inventories,
+                        player statistics, and more.
+                    </p>
+
+                    <div class="buttons">
+                        <a class="button button-primary" href="#features">
+                            Explore Features
+                        </a>
+
+                        <a class="button button-secondary" href="terms.html">
+                            Terms of Service
+                        </a>
+
+                        <a class="button button-secondary" href="privacy.html">
+                            Privacy Policy
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <section id="features">
+            <div class="container">
+
+                <div class="section-heading">
+                    <div class="section-label">Inside Ghostface</div>
+                    <h2>More than just another Discord bot.</h2>
+                    <p>
+                        Ghostface combines community features with game systems
+                        designed to give members something to build, collect,
+                        compete over, and come back to.
+                    </p>
+                </div>
+
+                <div class="features">
+
+                    <div class="card">
+                        <div class="card-number">01</div>
+                        <h3>Horror RPG</h3>
+                        <p>
+                            Build your profile, level up, improve your stats,
+                            explore dangerous areas, hunt enemies, and progress
+                            through a horror-inspired RPG system.
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-number">02</div>
+                        <h3>Loot & Inventory</h3>
+                        <p>
+                            Find weapons, equipment, consumables, and rare items.
+                            Equip your gear, improve your build, and expand your
+                            collection.
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-number">03</div>
+                        <h3>Virtual Currency</h3>
+                        <p>
+                            Earn currency through gameplay and community activity,
+                            then use it across Ghostface's progression and reward
+                            systems.
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-number">04</div>
+                        <h3>Games</h3>
+                        <p>
+                            Play community mini-games such as Ghost Wordle,
+                            compete for streaks, and take part in interactive
+                            server activities.
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-number">05</div>
+                        <h3>Player Progression</h3>
+                        <p>
+                            Earn experience, increase your level, upgrade skills,
+                            track statistics, and build a persistent player
+                            profile over time.
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-number">06</div>
+                        <h3>Community Driven</h3>
+                        <p>
+                            Ghostface is designed around Discord communities,
+                            rewarding activity and giving members more ways to
+                            interact with each other.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <section id="legal">
+            <div class="container">
+
+                <div class="section-heading">
+                    <div class="section-label">Transparency</div>
+                    <h2>Legal & Privacy</h2>
+                    <p>
+                        Information about using Ghostface and how Bot-related
+                        information is handled can be found below.
+                    </p>
+                </div>
+
+                <div class="split">
+
+                    <div class="legal-card">
+                        <h3>Terms of Service</h3>
+                        <p>
+                            Review the rules and conditions that apply when using
+                            the Ghostface Discord Bot.
+                        </p>
+
+                        <a href="terms.html">
+                            Read Terms of Service →
+                        </a>
+                    </div>
+
+                    <div class="legal-card">
+                        <h3>Privacy Policy</h3>
+                        <p>
+                            Learn what information Ghostface may process or store
+                            and how that information is used.
+                        </p>
+
+                        <a href="privacy.html">
+                            Read Privacy Policy →
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+
+    <footer>
+        <div class="container footer-inner">
+
+            <div>
+                © 2026 Ghostface Bot. All rights reserved.
+            </div>
+
+            <div class="footer-links">
+                <a href="terms.html">Terms</a>
+                <a href="privacy.html">Privacy</a>
+            </div>
+
+        </div>
+    </footer>
+
+</body>
+</html>
+```
